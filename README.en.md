@@ -1,6 +1,6 @@
-# nginx-letsencrypt-setup
+# nginx-certup
 
-A single Bash script (`zert.sh`) that sets up a fully working HTTPS site on
+A single Bash script (`certup.sh`) that sets up a fully working HTTPS site on
 Debian/Ubuntu in one go:
 
 - writes an nginx virtual-host configuration
@@ -31,9 +31,9 @@ By default the script expects: `/home/www/<domain>/html`
 ## Installation
 
 ```bash
-sudo curl -o /usr/local/bin/zert.sh \
-  https://raw.githubusercontent.com/Delinde/nginx-letsencrypt-setup/main/zert.sh
-sudo chmod +x /usr/local/bin/zert.sh
+sudo curl -o /usr/local/bin/certup.sh \
+  https://raw.githubusercontent.com/delinde/nginx-certup/main/certup.sh
+sudo chmod +x /usr/local/bin/certup.sh
 ```
 
 ---
@@ -41,40 +41,39 @@ sudo chmod +x /usr/local/bin/zert.sh
 ## Usage
 
 ```bash
-zert.sh [domain]
+certup.sh [domain]
 ```
 
-The script asks two questions:
+The script asks three questions:
 
 ```
 Domain (e.g. example.com): example.com
 Webroot [/home/www/example.com/html]:
+Email address:
 ```
 
 - **Domain** – can be pre-filled by passing it as an argument.
 - **Webroot** – press Enter to accept the suggested path, or type a different
   one (useful when two domains should share the same content directory).
+- **Email** – recommended for Let's Encrypt renewal reminders; can be left empty.
 
 ### Example: two domains, one content folder
 
 ```
-zert.sh example.com
+certup.sh example.com
   Domain: example.com        ↵
   Webroot: /home/www/example.com/html   ↵
 
-zert.sh alias.example.com
+certup.sh alias.example.com
   Domain: alias.example.com  ↵
   Webroot: /home/www/example.com/html   ← type this, then ↵
 ```
 
-### Email address for Let's Encrypt
-
-Set the environment variable `CERTBOT_EMAIL` before running the script to
-register your address with Let's Encrypt (recommended for renewal reminders):
+### Email address as environment variable
 
 ```bash
 export CERTBOT_EMAIL=you@example.com
-zert.sh example.com
+certup.sh example.com
 ```
 
 Without it the certificate is obtained without an email address.
@@ -83,14 +82,15 @@ Without it the certificate is obtained without an email address.
 
 ## What the script does, step by step
 
-1. Asks for domain and webroot.
-2. Verifies the webroot directory exists.
-3. Writes a minimal HTTP-only nginx config (needed for the ACME challenge).
-4. Enables the site and reloads nginx.
-5. Runs `certbot certonly --webroot` to obtain the certificate.
-6. Overwrites the nginx config with the full HTTPS version
+1. Asks for domain, webroot, and email address.
+2. Shows a summary and asks for confirmation.
+3. Verifies the webroot directory exists.
+4. Writes a minimal HTTP-only nginx config (needed for the ACME challenge).
+5. Enables the site and reloads nginx.
+6. Runs `certbot certonly --webroot` to obtain the certificate.
+7. Overwrites the nginx config with the full HTTPS version
    (HTTP → HTTPS redirect + SSL block with PHP-FPM support).
-7. Reloads nginx again.
+8. Reloads nginx again.
 
 The script is safe to run a second time on the same domain: the symlink in
 `sites-enabled` is only created once, and Certbot skips renewal when the

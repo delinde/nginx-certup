@@ -1,6 +1,6 @@
-# nginx-letsencrypt-setup
+# nginx-certup
 
-Ein einziges Bash-Skript (`zert.sh`), das auf Debian/Ubuntu in einem Durchgang
+Ein einziges Bash-Skript (`certup.sh`), das auf Debian/Ubuntu in einem Durchgang
 eine vollständig funktionierende HTTPS-Website einrichtet:
 
 - schreibt eine nginx-Virtual-Host-Konfiguration
@@ -31,9 +31,9 @@ Standardmäßig erwartet das Skript: `/home/www/<domain>/html`
 ## Installation
 
 ```bash
-sudo curl -o /usr/local/bin/zert.sh \
-  https://raw.githubusercontent.com/Delinde/nginx-letsencrypt-setup/main/zert.sh
-sudo chmod +x /usr/local/bin/zert.sh
+sudo curl -o /usr/local/bin/certup.sh \
+  https://raw.githubusercontent.com/delinde/nginx-certup/main/certup.sh
+sudo chmod +x /usr/local/bin/certup.sh
 ```
 
 ---
@@ -41,7 +41,7 @@ sudo chmod +x /usr/local/bin/zert.sh
 ## Verwendung
 
 ```bash
-zert.sh [domain]
+certup.sh [domain]
 ```
 
 Das Skript stellt drei Fragen:
@@ -62,11 +62,11 @@ E-Mail-Adresse:
 ### Beispiel: zwei Domains, ein Inhaltsordner
 
 ```
-zert.sh example.com
+certup.sh example.com
   Domain: example.com        ↵
   Webroot: /home/www/example.com/html   ↵
 
-zert.sh alias.example.com
+certup.sh alias.example.com
   Domain: alias.example.com  ↵
   Webroot: /home/www/example.com/html   ← hier eintragen, dann ↵
 ```
@@ -75,7 +75,7 @@ zert.sh alias.example.com
 
 ```bash
 export CERTBOT_EMAIL=ich@example.com
-zert.sh example.com
+certup.sh example.com
 ```
 
 ---

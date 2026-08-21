@@ -1,4 +1,4 @@
-# nginx-letsencrypt-setup
+# nginx-certup
 
 A single Bash script that sets up a fully working HTTPS site with nginx and
 Let's Encrypt on Debian/Ubuntu in one go.
