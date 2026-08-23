@@ -14,7 +14,7 @@ fi
 
 # ---------------------------------------------------------------
 echo ""
-echo "=== Dies ist zert.sh"
+echo "=== Dies ist certup.sh"
 echo "=== Ziel: HTTPS mit dem richtigen Let's-Encrypt-Zertifikat in nginx einrichten."
 echo ""
 # ---------------------------------------------------------------
